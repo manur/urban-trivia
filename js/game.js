@@ -242,9 +242,9 @@ var Map = Backbone.View.extend({
       // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
       var mapOptions = {
         // How zoomed in you want the map to start at (always required)
-        zoom: 12,
-        minZoom: 11,
-        maxZoom: 14,
+        zoom: 11,
+        minZoom: 10,
+        maxZoom: 15,
 
         // The latitude and longitude to center the map (always required)
         center: new google.maps.LatLng(this.model.get('lat'), this.model.get('lng')),
@@ -278,6 +278,10 @@ var Question = Backbone.View.extend({
     initialize: function() {
     },
 
+    events: {
+              "click .answers input": "answer"
+            },
+
     render: function() {
               var question = this;
               this.$el.html(this.template());
@@ -296,12 +300,17 @@ var Question = Backbone.View.extend({
               });
 
               map.render();
-              console.log("Rendering $map:", this.$el.find('.map'));
+              //console.log("Rendering map:", this.$el.find('.map'));
 
             },
 
-    answer: function() {
+    answer: function(evt) {
+              var $input = $(evt.currentTarget);
 
+              var address = $input.val();
+              $input.closest('form').find('input').prop("disabled", true);
+
+              if(address === false) {}
             }
 });
 
@@ -337,33 +346,32 @@ var Questions = Backbone.View.extend({
 function initMap() {
   window.game = {};
 
-  game.addresses = [
-    'Bengaluru, India',
-    'Mumbai, India',
-    'Kolkata, India',
-    'Chandigarh, India',
-    'Tokyo, Japan',
-    'Singapore',
-    'Hong Kong',
-    'Shanghai, China',
-    'Paris, France',
-    'London, United Kingdom',
-    'Rome, Italy',
-    'Washington DC, USA',
-    'New York, USA',
-    'San Francisco, USA',
-    'Cape Town, South Africa',
-    'Mombasa, Kenya',
-    'St. Petersburg, Russia',
-    'Istanbul, Turkey'
-  ];
+  game.addresses = {
+    'Bengaluru, India': { },
+    'Mumbai, India': { },
+    'Kolkata, India': { },
+    'Chandigarh, India': { },
+    'Tokyo, Japan': { },
+    'Singapore': { },
+    'Hong Kong': { },
+    'Shanghai, China': { },
+    'Paris, France': { },
+    'London, United Kingdom': { },
+    'Rome, Italy': { },
+    'Washington DC, USA': { },
+    'New York, USA': { },
+    'San Francisco, USA': { },
+    'Cape Town, South Africa': { },
+    'Mombasa, Kenya': { },
+    'St. Petersburg, Russia': { },
+    'Istanbul, Turkey': { }
+  };
 
-  game.cities = new Cities({
-  });
+  game.cities = new Cities();
 
-  game.addresses.forEach(function(address) {
+  _.each(_.keys(game.addresses), function(address) {
 
-    options = _.sample(_.shuffle(_.reject(game.addresses, address)), 3);
+    options = _.sample(_.shuffle(_.reject(_.keys(game.addresses), address)), 3);
     options.push(address);
 
     game.cities.push(new City({

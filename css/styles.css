@@ -30,7 +30,7 @@ body {
 }
 
 section {
-  width: 75%;
+  width: 90%;
   margin: 3em auto;
   overflow: hidden;
 }
@@ -101,6 +101,10 @@ fieldset {
   
   .answers form {
     padding: 0 1em;
+  }
+
+  section {
+    width: 75%;
   }
 
   .answers .answer-tip {

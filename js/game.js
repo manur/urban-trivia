@@ -260,7 +260,7 @@ var Map = Backbone.View.extend({
       var useragent = navigator.userAgent;
 
       if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1 ) {
-        mapElement.style.height = '100%';
+        mapElement.style.height = '400px';
       } else {
         mapElement.style.height = '600px';
       }

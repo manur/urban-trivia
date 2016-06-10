@@ -146,9 +146,12 @@ form.make-own-quiz input.cities {
   margin: 0 0 0.5em 0;
 }
 
-form.make-own-quiz label {
-  margin-bottom: 0.5em;
+form.make-own-quiz h3 {
+  margin-top: 2em;
+  margin-bottom: 1em;
   display: block;
+  opacity: 0.5;
+  font-weight: normal;
 }
 
 form.play-new-quiz .button,

@@ -243,8 +243,8 @@ var Map = Backbone.View.extend({
       var mapOptions = {
         // How zoomed in you want the map to start at (always required)
         zoom: 11,
-        minZoom: 10,
-        maxZoom: 15,
+        minZoom: 8,
+        maxZoom: 14,
 
         // The latitude and longitude to center the map (always required)
         center: new google.maps.LatLng(this.model.get('lat'), this.model.get('lng')),
@@ -446,24 +446,15 @@ function initMap() {
   window.game = {};
   var defaultList = function() {
     return [
-    'Bengaluru, India',
-//     'Mumbai, India',
-//     'Kolkata, India',
-//     'Chandigarh, India',
-//     'Tokyo, Japan',
-//     'Singapore',
-//     'Hong Kong',
-//     'Shanghai, China',
-//     'Paris, France',
-//     'London, United Kingdom',
-//     'Rome, Italy',
-//     'Washington DC, USA',
-//     'New York, USA',
-//     'San Francisco, USA',
-//     'Cape Town, South Africa',
-//     'Mombasa, Kenya',
-     'St. Petersburg, Russia',
-    'Istanbul, Turkey'
+     'Boston, USA',
+     'Mumbai, India',
+     'Tokyo, Japan',
+     'Singapore',
+     'Hong Kong',
+     'Paris, France',
+     'New York, USA',
+     'San Francisco, USA',
+     'Istanbul, Turkey'
     ];
   };
 

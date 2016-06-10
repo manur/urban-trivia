@@ -11,48 +11,25 @@
     <script src='bower_components/jquery/dist/jquery.min.js' type='text/javascript'></script>
     <script src='bower_components/underscore/underscore-min.js' type='text/javascript'></script>
     <script src='bower_components/backbone/backbone-min.js' type='text/javascript'></script>
+    <script src='bower_components/handlebars/handlebars.min.js' type='text/javascript'></script>
 
-    <script src='js/game.js' type="text/javascript"></script>
+  <script type='text/x-handlebars-template' id='question-template'>
+    <section class='question'>
+    <div class="map" style=""></div>
 
-  <script>
-
-    var cities = [
-      'Bengaluru, India',
-      'Mumbai, India',
-      'Kolkata, India',
-      'Chandigarh, India',
-      'Tokyo, Japan',
-      'Singapore',
-      'Hong Kong',
-      'Shanghai, China',
-      'Kuala Lumpur, Malaysia',
-      'Paris, France',
-      'London, United Kingdom',
-      'Rome, Italy',
-      'Washington DC, USA',
-      'New York, USA',
-      'San Francisco, USA',
-      'Cape Town, South Africa',
-      'Mombasa, Kenya',
-      'Monroeville, Liberia',
-      'St. Petersburg, Russia',
-      'Warsaw, Poland',
-      'Istanbul, Turkey'
-    ];
-
-    var quiz = {
-      lat: 12.9716,
-      lng: 77.5946,
-      answer: 'Bangalore'
-    };
-
-    var query = function(address) {
-      var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address.replace(' ', '+') + '&key=' + API_KEY;
-
-
-    };
-
+    <div class='answers'>
+      <form class='options'>
+      </form>
+    </div>
+    </section>
   </script>
+  <script type='text/x-handlebars-template' id='options-template'>
+    <fieldset>
+      <input type='radio' val='{{address}}' /> <label>{{address}}</label>
+    </fieldset>
+  </script>
+
+  <script src='js/game.js' type="text/javascript"></script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1UtTaoZKhoM6yAAgLCgRy8o2A-HcArYQ&callback=initMap"  type="text/javascript"></script>
 
@@ -62,12 +39,8 @@
   <section class='header'>
   <h1>Map Trivia</h1>
   </section>
-  
-  <section class='map'>
-  <!-- The element that will contain our Google Map. This is used in both the Javascript and CSS above. -->
-  <div id="map" style=""></div>
-  </section>
 
-  <section class='answers'>
-  </section>
+  <div class='questions'>
+  </div>
+
 </body></html>

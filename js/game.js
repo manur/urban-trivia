@@ -12,8 +12,8 @@ var City = Backbone.Model.extend({
              if(this.cached(address)) {
                console.log('Using cached geocode');
                var cache = this.cached(address);
-               this.lat = cache[0];
-               this.lng = cache[0];
+               this.set('lat', cache[0]);
+               this.set('lng', cache[1]);
                model.trigger('ready');
              } else {
                console.log("Geocoding " + address);
@@ -43,8 +43,11 @@ var City = Backbone.Model.extend({
             }
 });
 
-var Collection = Backbone.Collection.extend({
-  model: City
+var Cities = Backbone.Collection.extend({
+  model: City,
+
+  initialize: function(attrs) {
+  }
 });
 
 
@@ -223,7 +226,7 @@ var Map = Backbone.View.extend({
                 "color": "#7e8aa2"
             },
             {
-                "visibility": "off"
+                "visibility": "on"
             }
         ]
     }
@@ -269,42 +272,109 @@ var Map = Backbone.View.extend({
 
 
 var Question = Backbone.View.extend({
-  initialize: function() {
-              },
+  template: Handlebars.compile($('#question-template').html()),
+  optionsTemplate: Handlebars.compile($('#question-template').html()),
+
+    initialize: function() {
+    },
 
     render: function() {
-              var $map = $('#map');
-              $map.html('');
-
-              console.log("Rendering $map:", $map);
+              var question = this;
+              this.$el.html(this.template());
 
               var map = new Map({
                 model: this.model,
-                el: $map
+                  el: this.$el.find('.map')
               });
 
               map.render();
+              console.log("Rendering $map:", this.$el.find('.map'));
+
+              var options = this.model.get('options');
+
+              _.each(options, function(option) {
+                var $option = $(question.optionsTemplate({ address: option }));
+                $option.appendTo(question.$el.find('.answers .options'))
+              });
             },
+
+    answer: function() {
+
+            }
+});
+
+var Questions = Backbone.View.extend({
+  initialize: function() {
+              },
+
+  render: function() {
+            this.$el.html('');
+            var questions = this;
+
+            this.collection.each(function(city) {
+              console.log("Rendering model: ", city);
+
+              city.on('ready', function() {
+                console.log('Geocoded', this.attributes);
+
+                var qn = new Question({
+                  model: city
+                });
+
+                qn.render();
+                qn.$el.appendTo(questions.$el);
+              });
+
+              city.geocode();
+            });
+          }
 });
 
 
 
 function initMap() {
+  window.game = {};
 
-var city = new City({
-  address: "Bangalore, India"
-});
+  game.addresses = [
+    'Bengaluru, India',
+    'Mumbai, India',
+    'Kolkata, India',
+    'Chandigarh, India',
+    'Tokyo, Japan',
+    'Singapore',
+    'Hong Kong',
+    'Shanghai, China',
+    'Paris, France',
+    'London, United Kingdom',
+    'Rome, Italy',
+    'Washington DC, USA',
+    'New York, USA',
+    'San Francisco, USA',
+    'Cape Town, South Africa',
+    'Mombasa, Kenya',
+    'St. Petersburg, Russia',
+    'Istanbul, Turkey'
+  ];
 
-city.on('ready', function() {
-  console.log('Geocoded', this.attributes);
-  var qn = new Question({
-    model: city
+  game.cities = new Cities({
   });
 
-  qn.render();
+  game.addresses.forEach(function(address) {
+    var options = [address];
 
-});
+    options += _.sample(_.shuffle(_.reject(game.addresses, address)), 3);
 
-city.geocode();
+    game.cities.push(new City({
+      address: address,
+      options: options
+    }));
+  });
 
+  game.questions = new Questions({
+    el: $('.questions'),
+    collection: game.cities
+  });
+
+  game.questions.render();
 }
+

@@ -3,7 +3,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-#map {
+.map {
   border: 2px solid #333;
 }
 
@@ -17,18 +17,19 @@ body {
 
 section {
   width: 75%;
-  margin: 1em auto;
+  margin: 2em auto;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 900px) {
-  section.map {
+  section > .map {
     width: 60%;
     padding-left: 1em;
     float: left;
     box-sizing: border-box;
   }
 
-  section.answers {
+  section > .answers {
     width: 40%;
     float: left;
     box-sizing: border-box;

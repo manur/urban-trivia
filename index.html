@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,100,100italic|Pacifico' rel='stylesheet' type='text/css'>
+
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script> 
+
+
+    <script type="text/javascript">
+    function initMap() {
+      console.log('Creating map');
+
+      var mapStyles = [
+        {
+            "featureType": "all",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "all",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#ffffff"
+                },
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "on"
+                },
+                {
+                    "color": "#000000"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.text",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "weight": "0.9"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway.controlled_access",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "weight": "0.9"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "weight": "0.5"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "weight": "0"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway.controlled_access",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+       {
+           "featureType": "administrative",
+           "elementType": "labels",
+           "stylers": [
+               {
+                   "visibility": "off"
+               },
+               {
+                   "color": "#444444",
+               }
+           ]
+       },
+       {
+           "featureType": "water",
+           "elementType": "all",
+           "stylers": [
+               {
+                   "color": "#7e8aa2"
+               },
+               {
+                   "visibility": "on"
+               }
+           ]
+       }
+      ];
+
+      // var mapStyles = [
+      //     {
+      //         "featureType": "administrative",
+      //         "elementType": "labels",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "off"
+      //             },
+      //             {
+      //                 "color": "#444444",
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "landscape",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "on"
+      //             },
+      //             {
+      //                 "color": "#fff"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "landscape.natural.landcover",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "on"
+      //             },
+      //             {
+      //                 "color": "#fff"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "poi",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "off"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "road",
+      //         "elementType": "labels",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "off"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "road",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "saturation": -100
+      //             },
+      //             {
+      //                 "lightness": 45
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "road.highway",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "off"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "road.arterial",
+      //         "elementType": "labels",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "off"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "transit",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "visibility": "off"
+      //             }
+      //         ]
+      //     },
+      //     {
+      //         "featureType": "water",
+      //         "elementType": "all",
+      //         "stylers": [
+      //             {
+      //                 "color": "#7e8aa2"
+      //             },
+      //             {
+      //                 "visibility": "on"
+      //             }
+      //         ]
+      //     }
+      // ];
+
+
+      // var mapStyles = [
+      //   {
+      //     "featureType":"administrative",
+      //     "elementType":"all",
+      //     "stylers": [
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"landscape",
+      //     "elementType":"all",
+      //     "stylers": [
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"poi",
+      //     "elementType":"all",
+      //     "stylers":[
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"road",
+      //     "elementType":"all",
+      //     "stylers":[
+      //       {"visibility":"on"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"road",
+      //     "elementType":"labels",
+      //     "stylers":[
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"road",
+      //     "elementType":"geometry",
+      //     "stylers":[
+      //       {"color":"#ff6c9e"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"transit",
+      //     "elementType":"all",
+      //     "stylers":[
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"transit",
+      //     "elementType":"labels",
+      //     "stylers":[
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"water",
+      //     "elementType":"all",
+      //     "stylers":[
+      //       {"visibility":"on"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"water",
+      //     "elementType":"geometry",
+      //     "stylers":[
+      //       {"color":"#2b827b"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"water",
+      //     "elementType":"labels.text.fill",
+      //     "stylers":[
+      //       {"visibility":"off"}
+      //     ]
+      //   },
+      //   {
+      //     "featureType":"water",
+      //     "elementType":"labels.text.stroke",
+      //     "stylers":[
+      //       {"visibility":"off"}
+      //     ]
+      //   }
+      // ];
+
+      // Basic options for a simple Google Map
+      // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+      var mapOptions = {
+          // How zoomed in you want the map to start at (always required)
+        zoom: 12,
+        minZoom: 11,
+        maxZoom: 14,
+
+        // The latitude and longitude to center the map (always required)
+        center: new google.maps.LatLng(12.9716, 77.5946), // New York
+
+        // How you would like to style the map. 
+        // This is where you would paste any style found on Snazzy Maps.
+        styles: mapStyles
+
+
+      };
+
+      // Get the HTML DOM element that will contain your map 
+      // We are using a div with id="map" seen below in the <body>
+      var mapElement = document.getElementById('map');
+      var useragent = navigator.userAgent;
+
+
+      if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1 ) {
+      //   mapElement.style.width = '100%';
+           mapElement.style.height = '100%';
+      } else {
+      //   mapElement.style.width = '100%';
+         mapElement.style.height = '600px';
+      }
+
+      // Create the Google Map using our element and options defined above
+      var map = new google.maps.Map(mapElement, mapOptions);
+
+      // // Let's also add a marker while we're at it
+      // var marker = new google.maps.Marker({
+      //   position: new google.maps.LatLng(40.6700, -73.9400),
+      //   map: map,
+      //   title: 'Map Trivia'
+      // });
+    }
+  </script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1UtTaoZKhoM6yAAgLCgRy8o2A-HcArYQ&callback=initMap"  type="text/javascript"></script>
+
+</head>
+<body>
+  <section class='header'>
+  <h1>Map Trivia</h1>
+  </section>
+  
+  <section class='map'>
+  <!-- The element that will contain our Google Map. This is used in both the Javascript and CSS above. -->
+  <div id="map" style=""></div>
+
+  </section>
+
+  </body></html>

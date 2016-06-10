@@ -1,0 +1,36 @@
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#map {
+  border: 2px solid #333;
+}
+
+.header h1 {
+  margin: 0 auto;
+  width: 5em;
+  font-size: 3em;
+  font-family: 'Pacifico', cursive;
+}
+
+
+section {
+  width: 75%;
+  margin: 1em auto;
+}
+
+@media screen and (min-width: 900px) {
+  section.map {
+    width: 60%;
+    padding-left: 1em;
+    float: left;
+    box-sizing: border-box;
+  }
+
+  section.answers {
+    width: 40%;
+    float: left;
+    box-sizing: border-box;
+  }
+}

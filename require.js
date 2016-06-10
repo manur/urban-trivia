@@ -1,0 +1,2 @@
+
+queryString = require('query-string');

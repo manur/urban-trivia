@@ -460,7 +460,7 @@ function initMap() {
 
   var search = location.search.substring(1);
   if(search) {
-    var param = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}') || {};
+    var param = queryString.parse(location.search);
     if(!param.quiz) {
       console.log("Defaulting to built in param");
       game.addresses = defaultList();

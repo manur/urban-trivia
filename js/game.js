@@ -273,7 +273,7 @@ var Map = Backbone.View.extend({
 
 var Question = Backbone.View.extend({
   template: Handlebars.compile($('#question-template').html()),
-  optionsTemplate: Handlebars.compile($('#question-template').html()),
+  optionsTemplate: Handlebars.compile($('#options-template').html()),
 
     initialize: function() {
     },
@@ -281,6 +281,14 @@ var Question = Backbone.View.extend({
     render: function() {
               var question = this;
               this.$el.html(this.template());
+
+              var options = this.model.get('options');
+              console.log(options);
+
+              _.each(options, function(option) {
+                var $option = $(question.optionsTemplate({ address: option }));
+                $option.appendTo(question.$el.find('#answers .options'))
+              });
 
               var map = new Map({
                 model: this.model,
@@ -290,12 +298,6 @@ var Question = Backbone.View.extend({
               map.render();
               console.log("Rendering $map:", this.$el.find('.map'));
 
-              var options = this.model.get('options');
-
-              _.each(options, function(option) {
-                var $option = $(question.optionsTemplate({ address: option }));
-                $option.appendTo(question.$el.find('.answers .options'))
-              });
             },
 
     answer: function() {
@@ -360,9 +362,9 @@ function initMap() {
   });
 
   game.addresses.forEach(function(address) {
-    var options = [address];
 
-    options += _.sample(_.shuffle(_.reject(game.addresses, address)), 3);
+    options = _.sample(_.shuffle(_.reject(game.addresses, address)), 3);
+    options.push(address);
 
     game.cities.push(new City({
       address: address,

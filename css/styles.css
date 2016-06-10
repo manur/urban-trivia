@@ -151,8 +151,8 @@ form.make-own-quiz label {
   display: block;
 }
 
-form.play-new-quiz button,
-form.make-own-quiz button {
+form.play-new-quiz .button,
+form.make-own-quiz .button {
   padding: 0.5em 1em;
   background-color: #7e8aa2;
   color: white;
@@ -164,26 +164,27 @@ form.make-own-quiz button {
   transition: background-color 0.3s ease;
 }
 
-form.make-own-quiz button {
+form.make-own-quiz .button {
   background-color: #7e8aa2;
   color: white;
 }
-form.make-own-quiz button:hover {
+form.make-own-quiz .button:hover {
   background-color: #93a2bf;
 }
 
-form.play-new-quiz button {
+form.play-new-quiz .button {
   background-color: green;
   color: white;
-  display: block;
   margin-bottom: 1em;
+  display: inline-block;
+  text-decoration: none;
 }
 
 .results-header {
   margin-bottom: 2em;
 }
 
-form.play-new-quiz button:hover {
+form.play-new-quiz .button:hover {
   background-color: #00b500;
 }
 

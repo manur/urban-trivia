@@ -353,14 +353,12 @@ var Results = Backbone.View.extend({
 
                       var base64enc = btoa(cities.join(";"));
 
-                      var url = window.location.hostname + window.location.pathname;
+                      var url = window.location.protocol + "//" + window.location.hostname + window.location.pathname;
                       url = url + "?quiz=" + base64enc;
 
                       this.$el.find('.make-own-quiz').fadeOut(500, function() {
                         results.$el.find('.play-new-quiz').fadeIn(500);
-                        results.$el.find('.play-new-quiz button.play').attr('href', url);
-
-                        results.$el.find('.play-new-quiz .twitter-share-button').href('data-url', url);
+                        results.$el.find('.play-new-quiz .button.play').attr('href', url);
                       });
                     },
 

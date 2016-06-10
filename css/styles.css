@@ -9,16 +9,36 @@ body {
 
 .header h1 {
   margin: 0 auto;
-  width: 5em;
-  font-size: 3em;
+  max-width: 6.5em;
+  font-size: 5em;
   font-family: 'Pacifico', 'Helvetica', sans-serif;
+  text-align: center;
 }
 
+@media screen and (max-width: 600px) {
+  .header h1 {
+    font-size: 3em;
+  }
+}
+
+.header h2 {
+  max-width: 16em;
+  margin: 0.5em auto 2em;
+  font-weight: 100;
+  line-height: 1.5em;
+  text-align: center;
+}
 
 section {
   width: 75%;
   margin: 3em auto;
   overflow: hidden;
+}
+
+p {
+  max-width: 35em;
+  margin: 0 auto 1em;
+  line-height: 2em;
 }
 
 fieldset {

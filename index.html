@@ -13,7 +13,7 @@
     <script src='bower_components/underscore/underscore-min.js' type='text/javascript'></script>
     <script src='bower_components/backbone/backbone-min.js' type='text/javascript'></script>
     <script src='bower_components/handlebars/handlebars.min.js' type='text/javascript'></script>
-
+    <script src='bower_components/jquery.scrollTo/jquery.scrollTo.js' type='text/javascript'></script>
   <script type='text/x-handlebars-template' id='question-template'>
     <section class='question'>
     <div class="map" style=""></div>
@@ -23,19 +23,54 @@
       </form>
 
       <div class='answer-tip correct' style='display: none;'>
-        <h3>Correct.</h3>
+        <h3>&#x2714; Yup</h3>
       </div>
       <div class='answer-tip wrong' style='display: none;'>
-        <h3>Wrong.</h3>
-        The answer was '{{ address }}'.
+        <h3>&#x2718; Wrong</h3>
+        The answer is <strong>{{ address }}</strong>.
       </div>
     </div>
     </section>
   </script>
   <script type='text/x-handlebars-template' id='options-template'>
     <fieldset>
-      <input type='radio' value='{{address}}' /> <label>{{address}}</label>
+      <label for'{{ rand }}'><input type='radio' value='{{address}}' id='{{ rand }}'/> {{address}}</label>
     </fieldset>
+  </script>
+  <script type='text/x-handlebars-template' id='results-template'>
+    <div class='results-header'>
+    {{#if score}}
+    {{#if total}}
+    <h2>
+      You scored {{score}} out of {{total}}.
+    </h2>
+    {{/if}}
+    {{/if}}
+    {{#if comment}}
+    <h2 class='comment'>
+      {{comment}}
+    </h2>
+    {{/if}}
+    </div>
+
+    <form class='make-own-quiz'>
+      <p>
+      Maybe you have your own list of places you'd like to quiz your friends on?
+      <br/>
+      No problem &mdash; that's what this was designed for.
+      </p><p>
+      Enter your list of places, separated by a semicolon below to generate your own quiz.
+      </p>
+      <h3>
+        Generate your own quiz.
+      </h3>
+      <input type='text' class='cities' value='' placeholder='Example: Mumbai; Paris; Hong Kong; Lisbon' />
+      <button class='button generate'>Generate</button>
+    </form>
+    <form class='play-new-quiz' style='display: none;'>
+      <button class='button play' target='_blank'>Start new quiz</button>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="manur" data-size="large" data-related="manur" data-hashtags="NameThatCity">Tweet</a>
+    </form>
   </script>
 
   <script src='js/game.js' type="text/javascript"></script>
@@ -58,9 +93,37 @@
   <p>
   Share and enjoy.
   </p>
+
+  <p>
+  <a href="https://twitter.com/share" class="twitter-share-button" data-via="manur" data-size="large" data-related="manur" data-hashtags="NameThatCity">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </p>
   </section>
 
   <div class='questions'>
   </div>
 
-</body></html>
+  <div id='game-results' style='display: none;'>
+  </div>
+
+  <footer>
+  Made with &hearts; in Bangalore by <a href='https://manur.github.io'>Manu Raghavan</a>
+  </footer>
+
+  <script>window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+     
+      t._e = [];
+      t.ready = function(f) {
+          t._e.push(f);
+        };
+     
+      return t;
+    }(document, "script", "twitter-wjs"));</script>
+</body>
+</html>

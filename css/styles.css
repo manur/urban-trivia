@@ -35,8 +35,11 @@ section {
   overflow: hidden;
 }
 
-p {
+.header p {
   max-width: 35em;
+}
+
+p {
   margin: 0 auto 1em;
   line-height: 2em;
 }
@@ -46,26 +49,37 @@ p {
 }
 
 .answers .answer-tip {
-  margin-left: 2.2em;
+  margin-left: 0;
 }
 
 .answers h3 {
   font-size: 1.2em;
 }
 
-.answers .correct h3 {
-  color: green;
+.answers .correct {
+  color: #7e8aa2;
 }
 
-.answers .wrong h3 {
+.answers .wrong {
   color: red;
 }
 
-fieldset {
-  margin: 0 0 0 1em;
-  padding: 0.5em 1em;
+.answers form {
+  padding: 0;
 }
 
+fieldset {
+  padding: 1em 1em;
+  border-top: none;
+}
+
+.answers form fieldset:hover {
+  background-color: #b4c0d8;
+}
+
+.answers form label:hover {
+  cursor: pointer;
+}
 
 @media screen and (min-width: 900px) {
   section > .map {
@@ -74,16 +88,102 @@ fieldset {
     float: left;
     box-sizing: border-box;
   }
-
+  
   section > .answers {
     width: 40%;
     float: left;
     box-sizing: border-box;
   }
-
+  
   fieldset {
     border: none;
   }
+  
+  .answers form {
+    padding: 0 1em;
+  }
+
+  .answers .answer-tip {
+    margin-left: 2.5em;
+    font-size: 1em;
+  }
 }
 
+footer {
+  margin: 5em auto;
+  max-width: 12em;
+  line-height: 1.5em;
+  text-align: center;
+  opacity: 0.8;
+}
+
+#game-results {
+  width: 75%;
+  margin: 0 auto;
+}
+
+#game-results .comment {
+  opacity: 0.5;
+}
+
+#game-results h2 {
+  margin: 0;
+  line-height: 1.5em;
+  font-size: 2em;
+}
+
+#game-results p {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 1em;
+  max-width: 40em;
+}
+
+form.make-own-quiz input.cities {
+  padding: 0.5em 1em;
+  font-size: 16px;
+  width: 100%;
+  margin: 0 0 0.5em 0;
+}
+
+form.make-own-quiz label {
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+form.play-new-quiz button,
+form.make-own-quiz button {
+  padding: 0.5em 1em;
+  background-color: #7e8aa2;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-top: 1em;
+  margin-right: 1em;
+  transition: background-color 0.3s ease;
+}
+
+form.make-own-quiz button {
+  background-color: #7e8aa2;
+  color: white;
+}
+form.make-own-quiz button:hover {
+  background-color: #93a2bf;
+}
+
+form.play-new-quiz button {
+  background-color: green;
+  color: white;
+  display: block;
+  margin-bottom: 1em;
+}
+
+.results-header {
+  margin-bottom: 2em;
+}
+
+form.play-new-quiz button:hover {
+  background-color: #00b500;
+}
 

@@ -292,7 +292,10 @@ var Question = Backbone.View.extend({
               console.log(options);
 
               _.each(options, function(option) {
-                var $option = $(question.optionsTemplate({ address: option }));
+                var $option = $(question.optionsTemplate({
+                  address: option,
+                  rand: Math.round(Math.random() * 10000)
+                }));
                 $option.appendTo(question.$el.find('#answers .options'))
               });
 
@@ -317,6 +320,7 @@ var Question = Backbone.View.extend({
                 answer: this.model.get('address')
               });
 
+              this.model.set('completed', true);
               this.model.set('correct', address === this.model.get('address'));
 
               if(this.model.get('correct')) {
@@ -324,7 +328,72 @@ var Question = Backbone.View.extend({
               } else {
                 this.$el.find('.answer-tip.wrong').fadeIn();
               }
+
+              this.trigger('completed');
             }
+});
+
+var Results = Backbone.View.extend({
+  template: Handlebars.compile($('#results-template').html()),
+
+    events: {
+      "click form.make-own-quiz button.generate": "regenerateQuiz"
+    },
+
+    regenerateQuiz: function(evt) {
+                      evt && evt.preventDefault() && evt.stopPropagation();
+                      var results = this;
+                      var $form = $(evt.currentTarget).closest('form');
+                      var cities = ($form.find('input.cities').val() || "").split(';');
+
+                      if(cities.length < 3) {
+                        alert('A minimum of 3 cities is needed to make a quiz.');
+                        return;
+                      }
+
+                      var base64enc = btoa(cities.join(";"));
+
+                      var url = window.location.hostname + window.location.pathname;
+                      url = url + "?quiz=" + base64enc;
+
+                      this.$el.find('.make-own-quiz').fadeOut(500, function() {
+                        results.$el.find('.play-new-quiz').fadeIn(500);
+                        results.$el.find('.play-new-quiz button.play').attr('href', url);
+
+                        results.$el.find('.play-new-quiz .twitter-share-button').href('data-url', url);
+                      });
+                    },
+
+
+    render: function() {
+      var results = this;
+
+      var score = _.select(results.collection.models, function(qn) {
+        return qn.get('correct');
+      }).length;
+      var total = results.collection.length;
+
+      var comment;
+      if(score === total) {
+        comment = "Epic! Have you considered cloning yourself for the good of all mankind?";
+      } else if(score > total - 2) {
+        comment = "How almost perfect of you.";
+      } else if(score < total / 5) {
+        comment = "Did you miss the day in school when they taught geography?"
+      } else {
+        comment = "Not too hot. Not too cold.";
+      }
+
+      this.$el.html(this.template({
+        score: score,
+        total: total,
+        comment: comment
+      }));
+
+      this.$el.fadeIn(600);
+      $.scrollTo(this.$el, 300);
+    }
+
 });
 
 var Questions = Backbone.View.extend({
@@ -345,47 +414,84 @@ var Questions = Backbone.View.extend({
                   model: city
                 });
 
+                qn.on('completed', questions.completed.bind(questions));
+
                 qn.render();
                 qn.$el.appendTo(questions.$el);
               });
 
               city.geocode();
             });
-          }
+          },
+
+  completed: function() {
+               var questions = this;
+
+               if(_.every(questions.collection.models, function(qn) {
+                 return qn.get('completed');
+               })) {
+          
+                 var results = new Results({
+                   el: $('#game-results'),
+                   collection: questions.collection
+                 });
+
+                 results.render();
+               }
+
+             }
 });
 
 
 
 function initMap() {
   window.game = {};
-
-  game.addresses = {
-    'Bengaluru, India': { },
-    'Mumbai, India': { },
-    'Kolkata, India': { },
-    'Chandigarh, India': { },
-    'Tokyo, Japan': { },
-    'Singapore': { },
-    'Hong Kong': { },
-    'Shanghai, China': { },
-    'Paris, France': { },
-    'London, United Kingdom': { },
-    'Rome, Italy': { },
-    'Washington DC, USA': { },
-    'New York, USA': { },
-    'San Francisco, USA': { },
-    'Cape Town, South Africa': { },
-    'Mombasa, Kenya': { },
-    'St. Petersburg, Russia': { },
-    'Istanbul, Turkey': { }
+  var defaultList = function() {
+    return [
+    'Bengaluru, India',
+//     'Mumbai, India',
+//     'Kolkata, India',
+//     'Chandigarh, India',
+//     'Tokyo, Japan',
+//     'Singapore',
+//     'Hong Kong',
+//     'Shanghai, China',
+//     'Paris, France',
+//     'London, United Kingdom',
+//     'Rome, Italy',
+//     'Washington DC, USA',
+//     'New York, USA',
+//     'San Francisco, USA',
+//     'Cape Town, South Africa',
+//     'Mombasa, Kenya',
+     'St. Petersburg, Russia',
+    'Istanbul, Turkey'
+    ];
   };
+
+  var search = location.search.substring(1);
+  if(search) {
+    var param = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}') || {};
+    if(!param.quiz) {
+      console.log("Defaulting to built in param");
+      game.addresses = defaultList();
+    } else {
+      var semicolonlist = atob(param.quiz);
+      game.addresses = semicolonlist.split(';');
+    }
+  } else {
+    game.addresses = defaultList();
+  }
+
+
 
   game.cities = new Cities();
 
-  _.each(_.keys(game.addresses), function(address) {
+  _.each(game.addresses, function(address) {
 
-    options = _.sample(_.shuffle(_.reject(_.keys(game.addresses), function(e) { return e === address;})), 3);
+    options = _.sample(_.shuffle(_.reject(game.addresses, function(e) { return e === address;})), 3);
     options.push(address);
+    options = _.shuffle(options);
 
     game.cities.push(new City({
       address: address,

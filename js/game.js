@@ -284,7 +284,9 @@ var Question = Backbone.View.extend({
 
     render: function() {
               var question = this;
-              this.$el.html(this.template());
+              this.$el.html(this.template({
+                address: this.model.get('address')
+              }));
 
               var options = this.model.get('options');
               console.log(options);
@@ -310,7 +312,18 @@ var Question = Backbone.View.extend({
               var address = $input.val();
               $input.closest('form').find('input').prop("disabled", true);
 
-              if(address === false) {}
+              console.log({
+                guess: address,
+                answer: this.model.get('address')
+              });
+
+              this.model.set('correct', address === this.model.get('address'));
+
+              if(this.model.get('correct')) {
+                this.$el.find('.answer-tip.correct').fadeIn();
+              } else {
+                this.$el.find('.answer-tip.wrong').fadeIn();
+              }
             }
 });
 
@@ -371,7 +384,7 @@ function initMap() {
 
   _.each(_.keys(game.addresses), function(address) {
 
-    options = _.sample(_.shuffle(_.reject(_.keys(game.addresses), address)), 3);
+    options = _.sample(_.shuffle(_.reject(_.keys(game.addresses), function(e) { return e === address;})), 3);
     options.push(address);
 
     game.cities.push(new City({

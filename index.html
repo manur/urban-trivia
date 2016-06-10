@@ -21,12 +21,20 @@
     <div class='answers' id='answers'>
       <form class='options'>
       </form>
+
+      <div class='answer-tip correct' style='display: none;'>
+        <h3>Correct.</h3>
+      </div>
+      <div class='answer-tip wrong' style='display: none;'>
+        <h3>Wrong.</h3>
+        The answer was '{{ address }}'.
+      </div>
     </div>
     </section>
   </script>
   <script type='text/x-handlebars-template' id='options-template'>
     <fieldset>
-      <input type='radio' val='{{address}}' /> <label>{{address}}</label>
+      <input type='radio' value='{{address}}' /> <label>{{address}}</label>
     </fieldset>
   </script>
 
@@ -39,7 +47,7 @@
 <body>
   <section class='header'>
   <h1>Name that City</h1>
-  <h2>How well do you know the world?</h2>
+  <h2>How well do you know your world?</h2>
 
   <p>
   Inspired by a <a href='https://twitter.com/manur/status/739288698936659968'>Washington Post feature</a> on recognizing cities by their street grids alone, we expanded the feature to cover more cities around the world.

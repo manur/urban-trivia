@@ -41,11 +41,31 @@ p {
   line-height: 2em;
 }
 
-fieldset {
-  margin: 0;
+.answers {
   box-sizing: border-box;
+}
+
+.answers .answer-tip {
+  margin-left: 2.2em;
+}
+
+.answers h3 {
+  font-size: 1.2em;
+}
+
+.answers .correct h3 {
+  color: green;
+}
+
+.answers .wrong h3 {
+  color: red;
+}
+
+fieldset {
+  margin: 0 0 0 1em;
   padding: 0.5em 1em;
 }
+
 
 @media screen and (min-width: 900px) {
   section > .map {
@@ -63,7 +83,6 @@ fieldset {
 
   fieldset {
     border: none;
-    margin-left: 1em;
   }
 }
 

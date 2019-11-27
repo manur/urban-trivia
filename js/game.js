@@ -51,7 +51,7 @@ var Cities = Backbone.Collection.extend({
 });
 
 
-var Map = Backbone.View.extend({
+var MapView = Backbone.View.extend({
   initialize: function() {
               },
 
@@ -299,8 +299,8 @@ var Question = Backbone.View.extend({
                 $option.appendTo(question.$el.find('#answers .options'))
               });
 
-              var map = new Map({
-                model: this.model,
+              var map = new MapView({
+                  model: this.model,
                   el: this.$el.find('.map')
               });
 

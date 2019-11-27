@@ -7,4 +7,7 @@ And because no two people share the same set of experiences, we made this furthe
 
 Share and enjoy.
 
+## Sample
+
+![alt text](https://manur.github.io/urban-trivia/screen.png "Sample")
 

@@ -1,5 +1,5 @@
 
-var API_KEY = 'AIzaSyD1UtTaoZKhoM6yAAgLCgRy8o2A-HcArYQ';
+var API_KEY = 'AIzaSyBx6WVGZ0kTWVlm4O3IAlHw3p6oOa_H0pc';
 
 var City = Backbone.Model.extend({
   initialize: function() {

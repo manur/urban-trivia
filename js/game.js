@@ -450,7 +450,10 @@ function initMap() {
      'Paris, France',
      'New York, USA',
      'San Francisco, USA',
-     'Istanbul, Turkey'
+     'Istanbul, Turkey',
+     'Berlin, Germany',
+     'Moscow, Russia',
+     'Shanghai, China'
     ];
   };
 

@@ -10,17 +10,22 @@ var City = Backbone.Model.extend({
              var model = this;
 
              if(this.cached(address)) {
-               console.log('Using cached geocode');
                var cache = this.cached(address);
                this.set('lat', cache[0]);
                this.set('lng', cache[1]);
                model.trigger('ready');
              } else {
-               console.log("Geocoding " + address);
                var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(address) + '&key=' + API_KEY;
                var city = this;
 
                $.get(url, function(response) {
+                 if(response.error_message) {
+                   console.error({
+                       address:address,
+                       error_message: error_message
+                   });
+                   return;
+                 }
                  city.set('lat', response.results[0].geometry.location.lat);
                  city.set('lng', response.results[0].geometry.location.lng);
 
@@ -38,7 +43,6 @@ var City = Backbone.Model.extend({
              },
 
     cached: function(address) {
-             console.log("Getting geocode from cache for " + address);
               window.localStorage.getItem('geocode:' + address);
             }
 });
@@ -234,9 +238,7 @@ var MapView = Backbone.View.extend({
 
     render: function() {
       console.log('Creating map');
-
       var mapStyles = this.styles;
-
 
       // Basic options for a simple Google Map
       // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
@@ -289,7 +291,6 @@ var Question = Backbone.View.extend({
               }));
 
               var options = this.model.get('options');
-              console.log(options);
 
               _.each(options, function(option) {
                 var $option = $(question.optionsTemplate({
@@ -306,7 +307,6 @@ var Question = Backbone.View.extend({
 
               map.render();
               //console.log("Rendering map:", this.$el.find('.map'));
-
             },
 
     answer: function(evt) {
@@ -403,11 +403,7 @@ var Questions = Backbone.View.extend({
             var questions = this;
 
             this.collection.each(function(city) {
-              console.log("Rendering model: ", city);
-
               city.on('ready', function() {
-                console.log('Geocoded', this.attributes);
-
                 var qn = new Question({
                   model: city
                 });
@@ -475,7 +471,6 @@ function initMap() {
 
 
   game.cities = new Cities();
-
   _.each(game.addresses, function(address) {
 
     options = _.sample(_.shuffle(_.reject(game.addresses, function(e) { return e === address;})), 3);
